@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/authController');
-const { validateRegister } = require('../middlewares/validationMiddleware');
+const { validateRegister, validateForgotPassword, validateResetPassword } = require('../middlewares/validationMiddleware');
 
 // Rota de login (GET)
 router.get('/login', (req, res) => {
@@ -28,5 +28,13 @@ router.post('/register', validateRegister, authController.register);
 
 // Rota de logout
 router.get('/logout', authController.logout);
+
+// Rotas para recuperação de senha
+router.get('/forgot-password', authController.showForgotPasswordForm);
+router.post('/forgot-password', validateForgotPassword, authController.sendPasswordResetLink);
+
+// Rotas para redefinição de senha
+router.get('/reset-password/:token', authController.showResetPasswordForm);
+router.post('/reset-password', validateResetPassword, authController.resetPassword);
 
 module.exports = router;
