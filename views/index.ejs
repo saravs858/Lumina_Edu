@@ -1,0 +1,39 @@
+<%- include('partials/header', {title: 'Início'}); %>
+
+<main>
+ <section class="hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <h2>Transformando educação com luz e conhecimento</h2>
+      <p>Na Lumina Edu, iluminamos o caminho do aprendizado com metodologia acessível e suporte personalizado.</p>
+      <div class="hero-buttons">
+        <a href="/login" class="btn">Bora estudar!</a>
+        <a href="/auth/register" class="btn btn-green">Começar agora</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="/images/hero-bg.jpg" alt="Estudantes da Lumina Edu">
+    </div>
+  </div>
+</section>
+
+  <section class="destaques">
+    <h3>Por que escolher a Lumina Edu?</h3>
+    <div class="destaques-grid">
+      <div class="destaque-card">
+        <h4>Professores especializados</h4>
+        <p>Educadores com experiência de mercado e didática comprovada.</p>
+      </div>
+      <div class="destaque-card">
+        <h4>Material didático exclusivo</h4>
+        <p>Conteúdos atualizados e alinhados com as necessidades do mercado.</p>
+      </div>
+      <div class="destaque-card">
+        <h4>Flexibilidade de horários</h4>
+        <p>Estude quando e onde quiser com nossa plataforma online.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer'); %>

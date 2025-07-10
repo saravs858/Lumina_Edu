@@ -1,0 +1,427 @@
+:root {
+  --dourado: #B68810;
+  --verde: #7F9473;
+  --marrom: #301406;
+  --bege: #D3C795;
+  --branco: #FFFFFF;
+  --branco-neve: #F5F5F5;
+}
+
+/* Estilos gerais */
+body {
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  color: var(--marrom);
+  background-color: var(--bege);
+}
+
+header {
+  background-color: var(--branco);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.logo h1 {
+  color: var(--dourado);
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.logo span {
+  color: var(--verde);
+}
+
+/* Navegação */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: var(--marrom);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: var(--bege);
+  color: var(--dourado);
+}
+
+/* Conteúdo principal */
+main {
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* Rodapé */
+footer {
+  background-color: var(--marrom);
+  color: var(--bege);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  background-color: var(--dourado);
+  color: var(--branco);
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--bege);
+  transform: translateY(-2px);
+}  
+
+/* Hero Section - Versão Corrigida */
+.hero {
+  background-color: var(--branco-neve);
+  padding: 4rem 0;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 50%;
+}
+
+.hero-image {
+  flex: 1;
+  min-width: 45%;
+}
+
+.hero-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero h2 {
+  color: var(--marrom);
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--marrom);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-green {
+  background-color: var(--verde) !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .hero-content, .hero-image {
+    min-width: 100%;
+  }
+  
+  .hero-image img {
+    max-height: 300px;
+  }
+}
+
+/* Destaques */
+.destaques {
+  margin: 3rem 0;
+}
+
+.destaques h3 {
+  text-align: center;
+  color: var(--dourado);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.destaques-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.destaque-card {
+  background-color: var(--branco);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.destaque-card:hover {
+  transform: translateY(-5px);
+}
+
+.destaque-card h4 {
+  color: var(--verde);
+  margin-top: 0;
+}
+
+.destaque-card p {
+  color: var(--marrom);
+}
+
+/* Login Page Styles */
+.login-container {
+  min-height: 100vh;
+  background-color: var(--branco-neve);
+}
+
+.login-illustration {
+  position: relative;
+  height: 100vh;
+  background-color: var(--marrom);
+}
+
+.login-illustration img {
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+.illustration-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem;
+  color: white;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+}
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  padding: 3rem;
+  background-color: var(--branco);
+}
+
+.btn-gold {
+  background-color: var(--dourado);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-gold:hover {
+  background-color: #9a7510;
+  color: white;
+}
+
+/* Validação */
+.was-validated .form-control:invalid {
+  border-color: #dc3545;
+}
+
+.was-validated .form-control:valid {
+  border-color: #198754;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .login-illustration {
+    height: 300px;
+  }
+  
+  .login-form-container {
+    height: auto;
+    padding: 2rem;
+  }
+}
+
+/* Estilos para Provas ENEM */
+.provas-enem-container {
+  max-width: 1200px;
+}
+
+.card {
+  transition: all 0.3s ease;
+  border-radius: 10px !important;
+  overflow: hidden;
+  background-color: var(--branco-neve);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.btn-enem-prova {
+  background-color: var(--verde);
+  color: white !important;
+  border: none;
+}
+
+.btn-enem-prova:hover {
+  background-color: #6b8a6a;
+}
+
+.btn-enem-gabarito {
+  background-color: var(--dourado);
+  color: white !important;
+  border: none;
+}
+
+.btn-enem-gabarito:hover {
+  background-color: #9a7510;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1.5rem !important;
+  }
+}
+
+/* Cores personalizadas */
+.bg-verde {
+  background-color: #7F9473 !important;
+}
+
+.btn-enem {
+  background-color: #7F9473;
+  color: white !important;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-enem:hover {
+  background-color: #6b7d62;
+  transform: translateY(-2px);
+}
+
+.btn-gabarito {
+  background-color: #B68810;
+  color: white !important;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-gabarito:hover {
+  background-color: #9a7510;
+  transform: translateY(-2px);
+}
+
+/* Efeitos dos cards */
+.card {
+  transition: all 0.3s;
+  border-radius: 10px !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Estilos para o formulário de cadastro */
+.bg-verde {
+  background-color: var(--verde);
+}
+
+.text-verde {
+  color: var(--verde);
+}
+
+.btn-dourado {
+  background-color: var(--dourado);
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-dourado:hover {
+  background-color: #9a7510;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Validação */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}
+/* Estilos para o formulário de cadastro */
+.bg-verde {
+  background-color: var(--verde);
+}
+
+.text-verde {
+  color: var(--verde);
+}
+
+.btn-dourado {
+  background-color: var(--dourado);
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-dourado:hover {
+  background-color: #9a7510;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Validação */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}
