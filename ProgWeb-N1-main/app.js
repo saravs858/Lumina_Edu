@@ -11,30 +11,31 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-// Importe as rotas
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const authRouter = require('./routes/authRoutes');
-
 const app = express();
 
-// Conexão com o MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lumina-edu', {
+// =============================================
+// CONEXÃO COM O MONGODB
+// =============================================
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lumina_edu', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('Conectado ao MongoDB'))
-.catch(err => console.error('Erro na conexão com MongoDB:', err));
+.then(() => console.log('✅ Conectado ao MongoDB'))
+.catch(err => console.error('❌ Erro na conexão com MongoDB:', err));
 
-// Configuração do Passport
+// =============================================
+// CONFIGURAÇÃO DO PASSPORT
+// =============================================
 require('./config/auth');
 
-// Configuração da view engine
+// =============================================
+// VIEW ENGINE
+// =============================================
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // =============================================
-// MIDDLEWARES BÁSICOS (CRÍTICOS PARA CSRF)
+// MIDDLEWARES BÁSICOS
 // =============================================
 app.use(logger('dev'));
 app.use(express.json());
@@ -43,7 +44,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // =============================================
-// CONFIGURAÇÃO DE SESSÃO (DEVE VIR ANTES DO CSRF)
+// SESSÃO
 // =============================================
 const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'segredo_dev_lumina_edu',
@@ -65,7 +66,7 @@ if (app.get('env') === 'production') {
 app.use(session(sessionConfig));
 
 // =============================================
-// CONFIGURAÇÃO CSRF (DEPOIS DE SESSÃO/COOKIE)
+// CSRF PROTECTION
 // =============================================
 const csrf = require('csurf');
 const csrfProtection = csrf({ 
@@ -78,7 +79,7 @@ const csrfProtection = csrf({
 app.use(csrfProtection);
 
 // =============================================
-// OUTRAS PROTEÇÕES DE SEGURANÇA
+// SEGURANÇA ADICIONAL
 // =============================================
 app.use(helmet());
 
@@ -106,30 +107,35 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // =============================================
-// MIDDLEWARE GLOBAL (INCLUI CSRF TOKEN NAS VIEWS)
+// VARIÁVEIS GLOBAIS NAS VIEWS
 // =============================================
 app.use((req, res, next) => {
-  // Variáveis globais para todas as views
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.errors = req.flash('errors');
-  
-  // Injeta o token CSRF em todas as respostas
   res.locals.csrfToken = req.csrfToken();
-  
   next();
 });
 
 // =============================================
 // ROTAS
 // =============================================
+
+// Importar rotas
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/authRoutes');
+const materiasRouter = require('./routes/materias'); // ✅ nova rota da API
+
+// Aplicar rotas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/api/materias', materiasRouter); // ✅ rota de matérias
 
-// Middleware de autenticação
+// Proteção da dashboard
 app.use('/dashboard', (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash('error_msg', 'Por favor, faça login primeiro');
@@ -139,22 +145,19 @@ app.use('/dashboard', (req, res, next) => {
 });
 
 // =============================================
-// MANIPULADORES DE ERRO
+// ERROS
 // =============================================
 app.use(function(req, res, next) {
   next(createError(404, 'Página não encontrada'));
 });
 
 app.use(function(err, req, res, next) {
-  // Log de erros
   console.error(`[ERRO] ${err.status || 500} - ${err.message}`);
   console.error(err.stack);
 
-  // Define locals
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // Renderiza a página de erro
   res.status(err.status || 500);
   
   if (req.originalUrl.startsWith('/api')) {

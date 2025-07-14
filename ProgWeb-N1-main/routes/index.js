@@ -6,6 +6,11 @@ router.get('/', (req, res) => {
   res.render('index', { title: 'Início - Lumina Edu' });
 });
 
+// Rota para a página inicial
+router.get('/inicial', (req, res) => {
+  res.render('inicial', { title: 'Lumina Edu' });
+});
+
 // Rota para Meus Cronogramas
 router.get('/meus-cronogramas', (req, res) => {
   res.render('cronogramas', { title: 'Meus Cronogramas - Lumina Edu' });

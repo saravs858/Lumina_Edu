@@ -15,7 +15,7 @@ router.get('/login', (req, res) => {
 
 // Rota de login (POST)
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/dashboard',
+  successRedirect: '/index',
   failureRedirect: '/auth/login',
   failureFlash: true
 }));

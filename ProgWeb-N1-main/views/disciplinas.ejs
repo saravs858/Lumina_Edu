@@ -1,4 +1,4 @@
-<%- include('partials/header', { title: 'Disciplinas - ENEM' }); %>
+<%- include('partials/header_main', { title: 'Disciplinas - ENEM' }); %>
 
 <div class="container py-5">
   <h2 class="text-center text-dourado mb-4">Áreas de Conhecimento do ENEM</h2>
@@ -31,6 +31,18 @@
       }
     ]; %>
 
+    <% function slugify(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD') // Remove acentos
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-') // Substitui espaços por "-"
+        .replace(/[^\w\-]+/g, '') // Remove caracteres especiais
+        .replace(/\-\-+/g, '-') // Remove hífens duplicados
+        .replace(/^-+/, '') // Remove hífens do início
+        .replace(/-+$/, ''); // Remove hífens do fim
+    } %>
+
     <% areas.forEach(area => { %>
       <div class="col-md-6 col-lg-6">
         <div class="card shadow-sm h-100">
@@ -44,8 +56,10 @@
             <ul class="list-group list-group-flush">
               <% area.materias.forEach(materia => { %>
                 <li class="list-group-item">
-                  <i class="fas fa-book text-verde me-2"></i>
-                  <%= materia %>
+                  <a href="/<%= slugify(materia) %>" class="btn btn-link p-0 text-verde text-decoration-none">
+                    <i class="fas fa-book me-2"></i>
+                    <%= materia %>
+                  </a>
                 </li>
               <% }) %>
             </ul>
