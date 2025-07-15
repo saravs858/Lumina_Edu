@@ -26,8 +26,20 @@ router.get('/register', authController.showRegistrationForm);
 // Rota de registro (POST) com validação
 router.post('/register', validateRegister, authController.register);
 
-// Rota de logout
-router.get('/logout', authController.logout);
+// 🔓 Rota para logout
+router.get('/logout', (req, res) => {
+  req.logout(function(err) {
+    if (err) {
+      console.error('Erro ao fazer logout:', err);
+      return res.redirect('/inicial');
+    }
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid');
+      req.flash('success_msg', 'Você saiu com sucesso!');
+      res.redirect('/index'); // ou /inicial, dependendo do fluxo
+    });
+  });
+});
 
 // Rotas para recuperação de senha
 router.get('/forgot-password', authController.showForgotPasswordForm);

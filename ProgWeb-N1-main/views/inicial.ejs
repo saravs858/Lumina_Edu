@@ -1,8 +1,59 @@
-<%- include('partials/header_main'); %>
+<%- include('partials/header_main', { title: 'Início' }); %>
 
-<main>
-  <h1>Meus Cronogramas</h1>
-  <p>Conteúdo da página de cronogramas será exibido aqui.</p>
-</main>
+<div class="container py-5">
+  <h2 class="mb-4 text-center">👋 Seja bem-vinda, <%= user?.nome || 'Convidada' %>!</h2>
+
+  <div class="row g-4">
+    <!-- Último cronograma visto -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">📅 Último Cronograma Visto</h5>
+          <% if (user?.ultimoCronograma) { %>
+            <p><strong><%= user.ultimoCronograma.titulo %></strong></p>
+            <p><%= user.ultimoCronograma.descricao %></p>
+            <a href="/cronogramas/<%= user.ultimoCronograma._id %>" class="btn btn-materia">Ver cronograma</a>
+          <% } else { %>
+            <p>Você ainda não acessou nenhum cronograma.</p>
+            <a href="/cronogramas" class="btn btn-materia">Criar agora</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disciplinas -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">📚 Disciplinas</h5>
+          <p>Explore as áreas do conhecimento do ENEM e veja os conteúdos disponíveis.</p>
+          <a href="/disciplinas" class="btn btn-materia">Ver Disciplinas</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Provas Anteriores -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">📄 Provas Anteriores</h5>
+          <p>Acesse simulados e provas reais do ENEM com gabaritos.</p>
+          <a href="/provas-antigas" class="btn btn-materia">Ver Provas</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comunidade ou Perfil -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">👤 Meu Perfil</h5>
+          <p>Visualize suas informações, preferências e histórico.</p>
+          <a href="/perfil" class="btn btn-materia">Ver Perfil</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%- include('partials/footer'); %>

@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -123,17 +124,15 @@ app.use((req, res, next) => {
 // ROTAS
 // =============================================
 
-// Importar rotas
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/authRoutes');
-const materiasRouter = require('./routes/materias'); // ✅ nova rota da API
+const materiasRouter = require('./routes/materias'); // ✅ rotas da API de matérias
 
-// Aplicar rotas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/api/materias', materiasRouter); // ✅ rota de matérias
+app.use('/api/materias', materiasRouter); // ✅ rota da API de matérias
 
 // Proteção da dashboard
 app.use('/dashboard', (req, res, next) => {
@@ -142,6 +141,21 @@ app.use('/dashboard', (req, res, next) => {
     return res.redirect('/auth/login');
   }
   next();
+});
+
+// =============================================
+// ROTA DINÂMICA PARA PÁGINA DE MATÉRIA
+// =============================================
+app.get('/:materia', (req, res, next) => {
+  const materia = req.params.materia;
+  const viewPath = path.join(__dirname, 'views', 'materias', `${materia}.ejs`);
+
+  fs.access(viewPath, fs.constants.F_OK, (err) => {
+    if (err) {
+      return next(createError(404, 'Matéria não encontrada'));
+    }
+    res.render(`materias/${materia}`, { title: `Matéria - ${materia}` });
+  });
 });
 
 // =============================================
