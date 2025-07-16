@@ -1,3 +1,3 @@
 # Lumina_Edu
 
-Contém as tualizações mais recentes do projeto
+Contém as atualizações mais recentes do projeto
