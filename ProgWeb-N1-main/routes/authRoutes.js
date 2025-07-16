@@ -15,7 +15,7 @@ router.get('/login', (req, res) => {
 
 // Rota de login (POST)
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/index',
+  successRedirect: '/inicial',
   failureRedirect: '/auth/login',
   failureFlash: true
 }));
@@ -27,19 +27,23 @@ router.get('/register', authController.showRegistrationForm);
 router.post('/register', validateRegister, authController.register);
 
 // 🔓 Rota para logout
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) {
       console.error('Erro ao fazer logout:', err);
-      return res.redirect('/inicial');
+      return next(err); // redireciona para erro
     }
+
+    // ⚠️ Chama req.flash ANTES de destruir a sessão
+    req.flash('success_msg', 'Você saiu com sucesso!');
+
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      req.flash('success_msg', 'Você saiu com sucesso!');
-      res.redirect('/index'); // ou /inicial, dependendo do fluxo
+      res.redirect('/'); // ou /inicial, dependendo do fluxo
     });
   });
 });
+
 
 // Rotas para recuperação de senha
 router.get('/forgot-password', authController.showForgotPasswordForm);
@@ -48,5 +52,19 @@ router.post('/forgot-password', validateForgotPassword, authController.sendPassw
 // Rotas para redefinição de senha
 router.get('/reset-password/:token', authController.showResetPasswordForm);
 router.post('/reset-password', validateResetPassword, authController.resetPassword);
+
+// Rotas para perfil
+router.get('/auth/perfil', (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.flash('error_msg', 'Você precisa estar logada para acessar o perfil');
+    return res.redirect('/auth/login');
+  }
+
+  res.render('perfil', {
+    title: 'Meu Perfil',
+    user: req.user
+  });
+});
+
 
 module.exports = router;

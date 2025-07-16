@@ -82,9 +82,21 @@ app.use(csrfProtection);
 // =============================================
 // SEGURANÇA ADICIONAL
 // =============================================
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      fontSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      imgSrc: ["'self'", "data:", "https://cdn.jsdelivr.net"]
+    }
+  }
+}));
 
-// Rate limiting
+// =============================================
+// RATE LIMITING
+// =============================================
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -100,10 +112,10 @@ const authLimiter = rateLimit({
 app.use('/api/', apiLimiter);
 app.use('/auth/login', authLimiter);
 
-// Flash messages
+// =============================================
+// FLASH + PASSPORT
+// =============================================
 app.use(flash());
-
-// Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -123,19 +135,18 @@ app.use((req, res, next) => {
 // =============================================
 // ROTAS
 // =============================================
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/authRoutes');
-const materiasRouter = require('./routes/materias'); // ✅ rotas da API de matérias
+const materiasRouter = require('./routes/materias');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/api/materias', materiasRouter); // ✅ rota da API de matérias
+app.use('/api/materias', materiasRouter);
 
-// Proteção da dashboard
-app.use('/dashboard', (req, res, next) => {
+// Proteção da inicial
+app.use('/inicial', (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash('error_msg', 'Por favor, faça login primeiro');
     return res.redirect('/auth/login');
@@ -144,7 +155,7 @@ app.use('/dashboard', (req, res, next) => {
 });
 
 // =============================================
-// ROTA DINÂMICA PARA PÁGINA DE MATÉRIA
+// ROTA DINÂMICA DE MATÉRIA — ✔️ AGORA ANTES DOS ERROS!
 // =============================================
 app.get('/:materia', (req, res, next) => {
   const materia = req.params.materia;
@@ -173,14 +184,14 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  
+
   if (req.originalUrl.startsWith('/api')) {
     return res.json({ 
       error: err.message,
       ...(req.app.get('env') === 'development' && { stack: err.stack })
     });
   }
-  
+
   res.render('error', {
     title: `Erro ${err.status || 500}`,
     layout: 'error-layout'

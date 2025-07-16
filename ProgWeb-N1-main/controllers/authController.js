@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     req.login(user, (err) => {
       if (err) throw err;
       req.flash('success_msg', 'Cadastro realizado com sucesso!');
-      res.redirect('/dashboard');
+      res.redirect('/inicial');
     });
 
   } catch (err) {

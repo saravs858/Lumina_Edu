@@ -69,6 +69,52 @@ nav ul li a:hover {
   color: var(--dourado);
 }
 
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-toggle {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 120px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.menu-dropdown li {
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.menu-dropdown li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.menu-dropdown li a:hover {
+  background-color: #f5f5f5;
+}
+
+
 /* Conteúdo principal */
 main {
   padding: 2rem;
@@ -439,4 +485,49 @@ footer {
 .btn-materia:hover {
   background-color: rgba(0, 0, 0, 0.05);
   color: var(--marrom);
+}
+
+.perfil-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.perfil-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.perfil-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.perfil-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-per {
+  background-color: #6c63ff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-danger-per {
+  background-color: #e74c3c;
 }

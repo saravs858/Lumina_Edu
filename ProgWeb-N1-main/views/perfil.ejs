@@ -1,0 +1,19 @@
+<%- include('partials/header_main', { title: 'Perfil' }); %>
+
+<div class="perfil-wrapper">
+  <div class="perfil-card">
+    <div class="perfil-avatar">
+      <img src="/img/avatar-default.png" alt="Avatar da usuária" />
+    </div>
+    <h2>👋 Olá, <%= user?.nome %></h2>
+    <p><strong>Email:</strong> <%= user?.email %></p>
+    <p><strong>Cadastrada em:</strong> <%= new Date(user?.createdAt).toLocaleDateString('pt-BR') %></p>
+
+    <div class="perfil-actions">
+      <a href="/users/editar" class="btn-per">✏️ Editar perfil</a>
+      <form action="/users/deletar" method="POST" onsubmit="return confirm('Tem certeza que quer deletar sua conta?')">
+        <button class="btn btn-danger-per">🗑️ Deletar conta</button>
+      </form>
+    </div>
+  </div>
+</div>

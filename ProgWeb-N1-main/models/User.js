@@ -2,25 +2,22 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
   email: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
+    trim: true
   },
   password: {
     type: String,
     required: true,
-    select: false
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  role: {
-    type: String,
-    enum: ['student', 'teacher', 'admin'],
-    default: 'student'
+    select: false // 🔒 Isso evita que o campo seja retornado por padrão
   },
   createdAt: {
     type: Date,
@@ -28,11 +25,17 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// Criptografa a senha antes de salvar
-UserSchema.pre('save', async function(next) {
+// 🔐 Hash da senha antes de salvar
+UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password.toString(), salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);
