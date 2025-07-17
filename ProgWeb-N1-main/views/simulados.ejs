@@ -2,7 +2,72 @@
 
 <main>
   <h1>Simulados</h1>
-  <p>Conteúdo da página de cronogramas será exibido aqui.</p>
+
+  <!-- Filtro por matéria -->
+  <section id="filtro">
+    <label for="materia">Escolha a matéria:</label>
+    <select id="materia" onchange="filtrarSimulados()">
+      <option value="todas">Todas</option>
+      <option value="matematica">Matemática</option>
+      <option value="portugues">Português</option>
+      <option value="historia">História</option>
+    </select>
+  </section>
+
+  <!-- Lista de simulados dinâmica -->
+  <section id="lista-simulados">
+    <h2>Lista de Simulados</h2>
+    <ul id="simulados">
+      <% simulados.forEach(simulado => { %>
+        <li data-materia="<%= simulado.materia %>">
+          <strong><%= simulado.titulo %></strong> - <%= simulado.dificuldade %>
+          <button onclick="iniciarSimulado('<%= simulado.id %>')">Iniciar</button>
+        </li>
+      <% }); %>
+    </ul>
+  </section>
+
+  <!-- Cronograma personalizado -->
+  <section id="cronograma">
+    <h2>Seu Cronograma</h2>
+    <input type="date" id="dataEstudo">
+    <button onclick="adicionarData()">Adicionar</button>
+    <ul id="listaCronograma"></ul>
+  </section>
+
+  <!-- Resultados -->
+  <section id="resultados" style="display: none;">
+    <h2>Resultado do Simulado</h2>
+    <p id="resultadoTexto"></p>
+  </section>
 </main>
+
+<%- include('partials/footer'); %>
+
+<script>
+  function filtrarSimulados() {
+    const materiaSelecionada = document.getElementById('materia').value;
+    const todos = document.querySelectorAll('#simulados li');
+    todos.forEach(item => {
+      item.style.display = (materiaSelecionada === 'todas' || item.dataset.materia === materiaSelecionada) ? 'block' : 'none';
+    });
+  }
+
+  function iniciarSimulado(id) {
+    // Em um app real, você redirecionaria para a rota /simulado/:id
+    document.getElementById('resultados').style.display = 'block';
+    document.getElementById('resultadoTexto').textContent = `Você iniciou o simulado com ID ${id}. Boa sorte! 🎯`;
+  }
+
+  function adicionarData() {
+    const data = document.getElementById('dataEstudo').value;
+    if (data) {
+      const lista = document.getElementById('listaCronograma');
+      const item = document.createElement('li');
+      item.textContent = `Estudar em ${data}`;
+      lista.appendChild(item);
+    }
+  }
+</script>
 
 <%- include('partials/footer'); %>

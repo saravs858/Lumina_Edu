@@ -28,7 +28,13 @@ router.get('/disciplinas', (req, res) => {
 
 // Rota para Simulados
 router.get('/simulados', (req, res) => {
-  res.render('simulados', { title: 'Simulados - Lumina Edu' });
+  const simulados = [
+    { id: '001', titulo: 'Matemática Básica', materia: 'matematica', dificuldade: 'Fácil' },
+    { id: '002', titulo: 'Português Avançado', materia: 'portugues', dificuldade: 'Difícil' },
+    { id: '003', titulo: 'História Geral', materia: 'historia', dificuldade: 'Médio' }
+  ];
+
+  res.render('simulados', { simulados }); // ✅ aqui é onde você passa os dados
 });
 
 // Rota para Login

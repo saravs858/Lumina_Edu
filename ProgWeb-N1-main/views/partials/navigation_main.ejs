@@ -1,4 +1,4 @@
-<script src="/js/menu.js"></script>
+ <!-- <script src="/js/menu.js"></script> -->
 
 <nav>
   <ul>
@@ -9,12 +9,15 @@
     <li><a href="/simulados">Simulados</a></li>
     
     <!-- 👇 Menu suspenso como item de lista -->
-    <li class="menu-container">
-      <button class="menu-toggle">☰</button>
-      <ul class="menu-dropdown">
-        <li><a href="/auth/perfil">👤 Perfil</a></li>
-        <li><a href="/auth/logout">🚪 Sair</a></li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="perfilMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        ☰
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="perfilMenu">
+        <li><a class="dropdown-item" href="/perfil">👤 Perfil</a></li>
+        <li><a class="dropdown-item" href="/auth/logout">🚪 Sair</a></li>
       </ul>
     </li>
+
   </ul>
 </nav>

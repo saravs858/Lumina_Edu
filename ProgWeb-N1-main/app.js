@@ -154,9 +154,12 @@ app.use('/inicial', (req, res, next) => {
   next();
 });
 
-// =============================================
+// Rota pra tela de perfil
+app.get('/perfil', (req, res) => {
+  res.render('perfil', { title: 'Perfil do Usuário' });
+});
+
 // ROTA DINÂMICA DE MATÉRIA — ✔️ AGORA ANTES DOS ERROS!
-// =============================================
 app.get('/:materia', (req, res, next) => {
   const materia = req.params.materia;
   const viewPath = path.join(__dirname, 'views', 'materias', `${materia}.ejs`);
@@ -169,9 +172,7 @@ app.get('/:materia', (req, res, next) => {
   });
 });
 
-// =============================================
 // ERROS
-// =============================================
 app.use(function(req, res, next) {
   next(createError(404, 'Página não encontrada'));
 });
