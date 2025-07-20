@@ -261,7 +261,7 @@ footer {
 /* Login Page Styles */
 .login-container {
   min-height: 100vh;
-  background-color: var(--branco-neve);
+  background-color: var(--bege);
 }
 
 .login-illustration {
