@@ -5,7 +5,13 @@
     <div class="perfil-avatar">
       <img src="/img/avatar-default.png" alt="Avatar da usuária" />
     </div>
-    <h2>👋 Olá, <%= user?.nome %></h2>
+   <h2 class="mb-4 text-center">👋 Olá, 
+    <% if (user && (user.nome || user.name || user.username)) { %>
+      <%= user.nome || user.name || user.username %>
+    <% } else { %>
+      Visitante
+    <% } %>!
+  </h2>
     <p><strong>Email:</strong> <%= user?.email %></p>
     <p><strong>Cadastrada em:</strong> <%= new Date(user?.createdAt).toLocaleDateString('pt-BR') %></p>
 

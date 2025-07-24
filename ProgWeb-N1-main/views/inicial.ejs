@@ -1,7 +1,13 @@
 <%- include('partials/header_main', { title: 'Início' }); %>
 
 <div class="container py-5">
-  <h2 class="mb-4 text-center">👋 Seja bem-vinda, <%= user?.nome || 'Convidada' %>!</h2>
+  <h2 class="mb-4 text-center">👋 Seja bem-vinda, 
+    <% if (user && (user.nome || user.name || user.username)) { %>
+      <%= user.nome || user.name || user.username %>
+    <% } else { %>
+      Visitante
+    <% } %>!
+  </h2>
 
   <div class="row g-4">
     <!-- Último cronograma visto -->

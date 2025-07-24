@@ -42,7 +42,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// =============================================
+// ARQUIVOS ESTÁTICOS (ATUALIZADO)
+// =============================================
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/fontawesome', express.static(
+  path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free')
+));
 
 // =============================================
 // SESSÃO
@@ -67,29 +74,17 @@ if (app.get('env') === 'production') {
 app.use(session(sessionConfig));
 
 // =============================================
-// CSRF PROTECTION
-// =============================================
-const csrf = require('csurf');
-const csrfProtection = csrf({ 
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict'
-  }
-});
-app.use(csrfProtection);
-
-// =============================================
-// SEGURANÇA ADICIONAL
+// SEGURANÇA ADICIONAL (ATUALIZADO CSP)
 // =============================================
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
-      styleSrc: ["'self'", "https://cdn.jsdelivr.net"],
-      fontSrc: ["'self'", "https://cdn.jsdelivr.net"],
-      imgSrc: ["'self'", "data:", "https://cdn.jsdelivr.net"]
+      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+      fontSrc: ["'self'", "data:", "https://cdn.jsdelivr.net", "http://localhost:3000", "http://localhost"],
+      imgSrc: ["'self'", "data:", "https://cdn.jsdelivr.net"],
+      connectSrc: ["'self'", "http://localhost:3000", "http://localhost"]
     }
   }
 }));
@@ -111,6 +106,19 @@ const authLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 app.use('/auth/login', authLimiter);
+
+// =============================================
+// CSRF PROTECTION
+// =============================================
+const csrf = require('csurf');
+const csrfProtection = csrf({ 
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+  }
+});
+app.use(csrfProtection);
 
 // =============================================
 // FLASH + PASSPORT
@@ -159,7 +167,7 @@ app.get('/perfil', (req, res) => {
   res.render('perfil', { title: 'Perfil do Usuário' });
 });
 
-// ROTA DINÂMICA DE MATÉRIA — ✔️ AGORA ANTES DOS ERROS!
+// ROTA DINÂMICA DE MATÉRIA
 app.get('/:materia', (req, res, next) => {
   const materia = req.params.materia;
   const viewPath = path.join(__dirname, 'views', 'materias', `${materia}.ejs`);
