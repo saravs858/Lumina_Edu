@@ -1,8 +1,52 @@
-<%- include('../partials/header_main', {title: 'Matemática'}); %>
+<%- include('../partials/header_main', { title: 'Matemática - ENEM' }); %>
 
-<main>
-  <h1>Matemática</h1>
-  <!-- Conteúdo da página -->
-</main>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <!-- Cabeçalho -->
+      <div class="d-flex align-items-center mb-4">
+        <h1 class="me-3">Matemática</h1>
+        <span class="badge bg-warning">Matemática e suas Tecnologias</span>
+      </div>
+
+      <!-- Descrição -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <p class="lead">Álgebra, geometria e matemática básica para o ENEM.</p>
+        </div>
+      </div>
+
+      <!-- Conteúdos -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-light">
+          <h3 class="mb-0">Conteúdos Principais</h3>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Álgebra
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Geometria
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Estatística
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Botão de Voltar -->
+      <div class="mt-4">
+        <a href="/disciplinas" class="btn btn-outline-primary">
+          <i class="fas fa-arrow-left me-2"></i>Voltar para Disciplinas
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%- include('../partials/footer'); %>

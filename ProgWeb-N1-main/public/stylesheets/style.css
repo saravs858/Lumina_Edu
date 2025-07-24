@@ -7,6 +7,10 @@
   --branco-neve: #F5F5F5;
 }
 
+.fas, .fa-language, .fa-square-root-alt {
+  font-family: 'Font Awesome 6 Free' !important;
+}
+
 /* Estilos gerais */
 body {
   font-family: 'Montserrat', 'Segoe UI', sans-serif;
