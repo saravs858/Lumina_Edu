@@ -7,10 +7,6 @@
   --branco-neve: #F5F5F5;
 }
 
-.fas, .fa-language, .fa-square-root-alt {
-  font-family: 'Font Awesome 6 Free' !important;
-}
-
 /* Estilos gerais */
 body {
   font-family: 'Montserrat', 'Segoe UI', sans-serif;
@@ -534,4 +530,201 @@ footer {
 
 .btn-danger-per {
   background-color: #e74c3c;
+}
+
+/* styles/simulados.css */
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #166088;
+  --accent-color: #4fc3f7;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+  --light-gray: #e9ecef;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+h1, h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 0.5rem;
+}
+
+/* Seção de Filtro */
+#filtro {
+  background-color: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#filtro label {
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+#filtro select {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#filtro select:hover {
+  border-color: var(--secondary-color);
+}
+
+/* Lista de Simulados */
+#lista-simulados {
+  margin-bottom: 3rem;
+}
+
+#simulados {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+#simulados li {
+  background-color: white;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#simulados li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#simulados li strong {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+#simulados li button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+}
+
+#simulados li button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Cronograma */
+#cronograma {
+  background-color: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+#cronograma input[type="date"] {
+  padding: 0.5rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+#cronograma button {
+  padding: 0.5rem 1rem;
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#cronograma button:hover {
+  background-color: #218838;
+}
+
+#listaCronograma {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+#listaCronograma li {
+  background-color: white;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Resultados */
+#resultados {
+  background-color: #e8f5e9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 5px solid var(--success-color);
+}
+
+#resultadoTexto {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+  
+  #filtro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  #simulados {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Efeitos de Dificuldade */
+[data-dificuldade="facil"] {
+  border-left: 5px solid var(--success-color);
+}
+
+[data-dificuldade="medio"] {
+  border-left: 5px solid var(--warning-color);
+}
+
+[data-dificuldade="dificil"] {
+  border-left: 5px solid var(--danger-color);
 }

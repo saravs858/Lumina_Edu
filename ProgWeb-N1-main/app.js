@@ -164,7 +164,7 @@ app.use('/inicial', (req, res, next) => {
 
 // Rota pra tela de perfil
 app.get('/perfil', (req, res) => {
-  res.render('perfil', { title: 'Perfil do Usuário' });
+  res.render('auth/perfil', { title: 'Perfil do Usuário' });
 });
 
 // ROTA DINÂMICA DE MATÉRIA
