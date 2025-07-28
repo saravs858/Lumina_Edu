@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const crypto = require('crypto'); // Importação correta do módulo crypto
 const authController = require('../controllers/authController');
 const { 
   validateRegister, 
