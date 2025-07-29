@@ -5,6 +5,15 @@
   --bege: #D3C795;
   --branco: #FFFFFF;
   --branco-neve: #F5F5F5;
+  --primary-color: #4a6fa5;
+  --secondary-color: #166088;
+  --accent-color: #4fc3f7;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+  --light-gray: #e9ecef;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
 }
 
 /* Estilos gerais */
@@ -17,6 +26,9 @@ body {
   background-color: var(--bege);
 }
 
+/*------------------------------------*/
+
+/* Cabeçalho */
 header {
   background-color: var(--branco);
   padding: 1rem 2rem;
@@ -114,6 +126,7 @@ nav ul li a:hover {
   background-color: #f5f5f5;
 }
 
+/*------------------------------------*/
 
 /* Conteúdo principal */
 main {
@@ -146,7 +159,9 @@ footer {
   transform: translateY(-2px);
 }  
 
-/* Hero Section - Versão Corrigida */
+/* -----------------------------*/
+
+/* Tela de Entrada */
 .hero {
   background-color: var(--branco-neve);
   padding: 4rem 0;
@@ -257,8 +272,9 @@ footer {
 .destaque-card p {
   color: var(--marrom);
 }
-
-/* Login Page Styles */
+ /* -------------------------------- */
+ 
+/* Tela de Login*/
 .login-container {
   min-height: 100vh;
   background-color: var(--bege);
@@ -327,89 +343,7 @@ footer {
   }
 }
 
-/* Estilos para Provas ENEM */
-.provas-enem-container {
-  max-width: 1200px;
-}
-
-.card {
-  transition: all 0.3s ease;
-  border-radius: 10px !important;
-  overflow: hidden;
-  background-color: var(--branco-neve);
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-}
-
-.btn-enem-prova {
-  background-color: var(--verde);
-  color: white !important;
-  border: none;
-}
-
-.btn-enem-prova:hover {
-  background-color: #6b8a6a;
-}
-
-.btn-enem-gabarito {
-  background-color: var(--dourado);
-  color: white !important;
-  border: none;
-}
-
-.btn-enem-gabarito:hover {
-  background-color: #9a7510;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .card-body {
-    padding: 1.5rem !important;
-  }
-}
-
-/* Cores personalizadas */
-.bg-verde {
-  background-color: #7F9473 !important;
-}
-
-.btn-enem {
-  background-color: #7F9473;
-  color: white !important;
-  border: none;
-  transition: all 0.3s;
-}
-
-.btn-enem:hover {
-  background-color: #6b7d62;
-  transform: translateY(-2px);
-}
-
-.btn-gabarito {
-  background-color: #B68810;
-  color: white !important;
-  border: none;
-  transition: all 0.3s;
-}
-
-.btn-gabarito:hover {
-  background-color: #9a7510;
-  transform: translateY(-2px);
-}
-
-/* Efeitos dos cards */
-.card {
-  transition: all 0.3s;
-  border-radius: 10px !important;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-}
+/* --------------------------------- */
 
 /* Estilos para o formulário de cadastro */
 .bg-verde {
@@ -441,37 +375,10 @@ footer {
   color: #dc3545;
   font-size: 0.875em;
 }
-/* Estilos para o formulário de cadastro */
-.bg-verde {
-  background-color: var(--verde);
-}
 
-.text-verde {
-  color: var(--verde);
-}
+/* ---------------------------------*/
 
-.btn-dourado {
-  background-color: var(--dourado);
-  color: white;
-  transition: all 0.3s;
-}
-
-.btn-dourado:hover {
-  background-color: #9a7510;
-  color: white;
-  transform: translateY(-2px);
-}
-
-/* Validação */
-.is-invalid {
-  border-color: #dc3545;
-}
-
-.invalid-feedback {
-  color: #dc3545;
-  font-size: 0.875em;
-}
-
+/*Tela de Disciplinas*/
 .btn-materia {
   background-color: transparent;
   color: var(--marrom);
@@ -487,6 +394,9 @@ footer {
   color: var(--marrom);
 }
 
+/* ---------------------------------*/
+
+/*Tela de Perfil*/
 .perfil-wrapper {
   display: flex;
   justify-content: center;
@@ -532,20 +442,11 @@ footer {
   background-color: #e74c3c;
 }
 
-/* styles/simulados.css */
-:root {
-  --primary-color: #4a6fa5;
-  --secondary-color: #166088;
-  --accent-color: #4fc3f7;
-  --background-color: #f8f9fa;
-  --text-color: #333;
-  --light-gray: #e9ecef;
-  --success-color: #28a745;
-  --warning-color: #ffc107;
-  --danger-color: #dc3545;
-}
+/* --------------------------------------------------------*/
 
-main {
+/*Tela de Simulados*/
+
+.mainS {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -727,4 +628,43 @@ h1, h2 {
 
 [data-dificuldade="dificil"] {
   border-left: 5px solid var(--danger-color);
+}
+
+/* ---------------------------------*/
+
+/* Tela de Provas Antigas*/
+
+.btn-enem {
+  background-color: #7F9473;
+  color: white !important;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-enem:hover {
+  background-color: #6b7d62;
+  transform: translateY(-2px);
+}
+
+.btn-gabarito {
+  background-color: #B68810;
+  color: white !important;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-gabarito:hover {
+  background-color: #9a7510;
+  transform: translateY(-2px);
+}
+
+/* Efeitos dos cards */
+.card {
+  transition: all 0.3s;
+  border-radius: 10px !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
 }
