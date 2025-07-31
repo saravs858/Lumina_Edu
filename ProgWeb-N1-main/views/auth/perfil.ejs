@@ -3,25 +3,97 @@
 <div class="perfil-wrapper">
   <div class="perfil-card">
     <div class="perfil-avatar">
-      <img src="/images/avatar-default.png" alt="Avatar do usuário" />
+      <img src="/images/<%= user?.imagem || 'avatar-default.png' %>" alt="Avatar do usuário" />
     </div>
-   <h2 class="mb-4 text-center">👋 Olá, 
-    <% if (user && (user.nome || user.name || user.username)) { %>
-      <%= user.nome || user.name || user.username %>
-    <% } else { %>
-      Visitante
-    <% } %>!
-  </h2>
+
+    <h2 class="mb-4 text-center">👋 Olá, 
+      <% if (user && (user.nome || user.name || user.username)) { %>
+        <%= user.nome || user.name || user.username %>
+      <% } else { %>
+        Visitante
+      <% } %>!
+    </h2>
+
     <p><strong>Email:</strong> <%= user?.email %></p>
     <p><strong>Cadastrada em:</strong> <%= new Date(user?.createdAt).toLocaleDateString('pt-BR') %></p>
 
     <div class="perfil-actions">
-      <a href="/users/editar" class="btn-per">✏️ Editar perfil</a>
+      <% if (user) { %>
+        <button class="btn-per" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil"
+          data-id="<%= user._id %>"
+          data-nome="<%= user.nome %>"
+          data-email="<%= user.email %>"
+          data-imagem="<%= user.imagem %>">
+          ✏️ Editar perfil
+        </button>
+      <% } else { %>
+        <p>Você precisa estar logado para editar o perfil.</p>
+      <% } %>
+      
+
       <form action="/users/deletar" method="POST" onsubmit="return confirm('Tem certeza que quer deletar sua conta?')">
-        <button class="btn btn-danger-per">🗑️ Deletar conta</button>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit" class="btn btn-danger-per">🗑️ Deletar conta</button>
       </form>
     </div>
   </div>
 </div>
+
+<!-- Modal de Edição de Perfil -->
+<div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+     <form id="formEditarPerfil" action="/users/editar" method="POST" enctype="multipart/form-data">
+         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+         <input type="hidden" name="_id" id="editar-id" />
+         <input type="hidden" id="editar-imagemAntiga" name="imagemAntiga">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarPerfilLabel">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="editar-nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="editar-nome" name="nome" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editar-senha" class="form-label">Nova Senha (opcional)</label>
+            <input type="password" class="form-control" id="editar-senha" name="senha" />
+          </div>
+
+          <div class="mb-3">
+            <label for="editar-imagem" class="form-label">Nova Imagem (opcional)</label>
+            <input type="file" class="form-control" id="editar-imagem" name="imagem" accept="image/*">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  var modalEditar = document.getElementById('modalEditarPerfil');
+  modalEditar.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+
+    var id = button.getAttribute('data-id');
+    var nome = button.getAttribute('data-nome');
+    var email = button.getAttribute('data-email');
+    var imagem = button.getAttribute('data-imagem');
+
+    modalEditar.querySelector('#editar-id').value = id;
+    modalEditar.querySelector('#editar-nome').value = nome;
+    modalEditar.querySelector('#editar-email').value = email;
+    modalEditar.querySelector('#editar-imagemAntiga').value = imagem;
+  });
+</script>
 
 <%- include('../partials/footer'); %>

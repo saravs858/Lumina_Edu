@@ -668,3 +668,98 @@ h1, h2 {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
 }
+
+/* Estilo da página de matéria */
+.materia-container {
+  background-color: var(--branco);
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  max-width: 1000px;
+  margin: 3rem auto;
+}
+
+.materia-container h1 {
+  color: var(--dourado);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.materia-container p {
+  font-size: 1.1rem;
+  color: var(--marrom);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.topico {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--branco-neve);
+  border-left: 5px solid var(--verde);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.topico h4 {
+  margin-top: 0;
+  color: var(--verde);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.topico p {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.topico ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.topico ul li {
+  margin-bottom: 0.5rem;
+}
+
+.topico ul li a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.topico ul li a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.btn-voltar {
+  display: inline-block;
+  margin-top: 2rem;
+  background-color: var(--verde);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background-color: #6b7d62;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .materia-container {
+    padding: 2rem 1rem;
+  }
+
+  .materia-container h1 {
+    font-size: 2rem;
+  }
+
+  .topico {
+    padding: 1rem;
+  }
+}

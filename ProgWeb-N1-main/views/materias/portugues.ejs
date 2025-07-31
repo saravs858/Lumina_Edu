@@ -1,8 +1,26 @@
-<%- include('../partials/header_main'); %>
+<%- include('../partials/header_main', { title: `${materia.nome} - ENEM` }) %>
 
-<main>
-  <h1>Português</h1>
-  <!-- Conteúdo da página -->
-</main>
+<div class="materia-container">
+  <h1><%= materia.nome %></h1>
+  <p><%= materia.descricao %></p>
 
-<%- include('../partials/footer'); %>
+  <% materia.conteudos.forEach(conteudo => { %>
+    <div class="topico">
+      <h4><%= conteudo.titulo %></h4>
+      <p><%= conteudo.descricao %></p>
+      <ul>
+        <% conteudo.materiais.forEach(material => { %>
+          <li>
+            <a href="<%= material.link %>" target="_blank">
+              <%= material.tipo %> - <%= material.link.includes('youtube') ? 'Vídeo' : 'PDF' %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  <% }) %>
+
+  <a href="/disciplinas" class="btn-voltar">← Voltar para disciplinas</a>
+</div>
+
+<%- include('../partials/footer') %>

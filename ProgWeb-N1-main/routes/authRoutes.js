@@ -108,10 +108,13 @@ router.get('/perfil', (req, res) => {
     req.flash('error_msg', 'Você precisa estar logado para acessar o perfil');
     return res.redirect('/auth/login');
   }
+
   res.render('auth/perfil', {
     title: 'Meu Perfil',
-    user: req.user
+    user: req.user,
+    csrfToken: req.csrfToken() // 👈 ESSENCIAL
   });
 });
+    
 
 module.exports = router;

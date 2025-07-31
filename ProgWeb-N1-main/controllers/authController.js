@@ -1,32 +1,18 @@
 const crypto = require('crypto');
 const User = require('../models/User');
-const emailService = require('../services/emailService');
-
-// Controllers para autenticação
-exports.showLoginForm = (req, res) => {
-  res.render('auth/login', {
-    title: 'Login - Lumina Edu',
-    csrfToken: req.csrfToken(),
-    error_msg: req.flash('error')[0]
-  });
-};
+// Certifique-se de importar o serviço de e-mail
+const { sendPasswordResetEmail, sendPasswordChangedConfirmation } = require('../services/emailService');
 
 exports.showRegistrationForm = (req, res) => {
   res.render('auth/register', {
     title: 'Cadastro - Lumina Edu',
-    csrfToken: req.csrfToken(),
-    error_msg: req.flash('error_msg')
+    csrfToken: req.csrfToken()
   });
 };
 
-exports.register = async (req, res, next) => {
+exports.register = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword } = req.body;
-
-    if (password !== confirmPassword) {
-      req.flash('error_msg', 'As senhas não coincidem');
-      return res.redirect('/auth/register');
-    }
+    const { name, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -37,13 +23,9 @@ exports.register = async (req, res, next) => {
     const user = await User.create({ name, email, password });
 
     req.login(user, (err) => {
-      if (err) {
-        console.error('Erro no login automático:', err);
-        req.flash('success_msg', 'Cadastro realizado! Faça login para continuar');
-        return res.redirect('/auth/login');
-      }
+      if (err) throw err;
       req.flash('success_msg', 'Cadastro realizado com sucesso!');
-      return res.redirect('/inicial');
+      res.redirect('/inicial');
     });
 
   } catch (err) {
@@ -54,119 +36,116 @@ exports.register = async (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error('Erro ao fazer logout:', err);
-      return res.redirect('/');
-    }
-    req.flash('success_msg', 'Logout realizado com sucesso');
-    res.redirect('/auth/login');
+  req.logout(() => {
+    req.flash('success_msg', 'Você saiu da sua conta');
+    res.redirect('/');
   });
 };
 
-// Controllers para recuperação de senha
+exports.showLoginForm = (req, res) => {
+  res.render('auth/login', {
+    title: 'Login - Lumina Edu',
+    csrfToken: req.csrfToken()
+  });
+};
+
+// Exibe formulário para o usuário digitar o email
 exports.showForgotPasswordForm = (req, res) => {
-  res.render('auth/forgot-password', {
+  res.render('forgot-password', {
     title: 'Recuperar Senha - Lumina Edu',
     csrfToken: req.csrfToken(),
-    error_msg: req.flash('error_msg'),
-    info_msg: req.flash('info_msg')
+    token: '',     // Evita erro no EJS
+    email: ''      // Evita erro no EJS
   });
 };
 
+// Processa envio do email de recuperação
 exports.sendPasswordResetLink = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      req.flash('info_msg', 'Se o e-mail existir, enviaremos um link de recuperação');
+      req.flash('error_msg', 'Se um usuário com este e-mail existir, um link de recuperação será enviado');
       return res.redirect('/auth/forgot-password');
     }
 
-    const token = crypto.randomBytes(32).toString('hex');
-    user.resetToken = token;
-    user.resetTokenExpires = Date.now() + 3600000; // 1 hora
-    await user.save({ validateBeforeSave: false });
+    const token = crypto.randomBytes(20).toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+    await user.save();
 
-    await emailService.sendPasswordResetEmail(user.email, token);
+    await sendPasswordResetEmail(user.email, token);
 
-    req.flash('success_msg', 'Um e-mail com instruções foi enviado');
+    req.flash('success_msg', 'Um e-mail com instruções para redefinir sua senha foi enviado');
     res.redirect('/auth/login');
 
   } catch (err) {
     console.error('Erro ao enviar link de recuperação:', err);
-    req.flash('error_msg', 'Erro ao processar solicitação');
+    req.flash('error_msg', 'Ocorreu um erro ao processar sua solicitação');
     res.redirect('/auth/forgot-password');
   }
 };
 
+// Exibe o formulário de redefinição (com token e email)
 exports.showResetPasswordForm = async (req, res) => {
   try {
     const user = await User.findOne({
-      resetToken: req.params.token,
-      resetTokenExpires: { $gt: Date.now() }
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
     });
 
     if (!user) {
-      req.flash('error_msg', 'Token inválido ou expirado');
+      req.flash('error_msg', 'Token de recuperação inválido ou expirado');
       return res.redirect('/auth/forgot-password');
     }
 
-    res.render('auth/reset-password', {
+    res.render('reset-password', {
       title: 'Redefinir Senha - Lumina Edu',
       csrfToken: req.csrfToken(),
       token: req.params.token,
-      error_msg: req.flash('error')[0]
+      email: user.email
     });
 
   } catch (err) {
-    console.error('Erro ao verificar token:', err);
-    req.flash('error_msg', 'Erro ao processar solicitação');
+    console.error('Erro ao exibir o formulário de redefinição:', err);
+    req.flash('error_msg', 'Ocorreu um erro ao processar sua solicitação');
     res.redirect('/auth/forgot-password');
   }
 };
 
+// Processa a redefinição da senha
 exports.resetPassword = async (req, res) => {
   try {
-    const { newPassword, confirmPassword } = req.body;
-    const { token } = req.params;
+    const { token, email, password, confirmPassword } = req.body;
 
-    if (newPassword !== confirmPassword) {
-      req.flash('error', 'As senhas não coincidem');
+    if (password !== confirmPassword) {
+      req.flash('error_msg', 'As senhas não coincidem');
       return res.redirect(`/auth/reset-password/${token}`);
     }
 
-    const user = await User.findOne({ 
-      resetToken: token,
-      resetTokenExpires: { $gt: Date.now() }
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
     });
 
     if (!user) {
-      req.flash('error_msg', 'Token inválido ou expirado');
+      req.flash('error_msg', 'Token de recuperação inválido ou expirado');
       return res.redirect('/auth/forgot-password');
     }
 
-    user.password = newPassword;
-    user.resetToken = undefined;
-    user.resetTokenExpires = undefined;
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
 
-    await emailService.sendPasswordChangedConfirmation(user.email);
+    await sendPasswordChangedConfirmation(user.email);
 
-    req.flash('success_msg', 'Senha alterada com sucesso!');
+    req.flash('success_msg', 'Sua senha foi redefinida com sucesso. Faça login com sua nova senha');
     res.redirect('/auth/login');
 
   } catch (err) {
-    console.error('Erro ao resetar senha:', err);
-    req.flash('error_msg', 'Ocorreu um erro ao redefinir a senha');
-    res.redirect(`/auth/reset-password/${req.params.token}`);
+    console.error('Erro ao redefinir a senha:', err);
+    req.flash('error_msg', 'Ocorreu um erro ao redefinir sua senha');
+    res.redirect('/auth/forgot-password');
   }
-};
-
-// Controller para perfil
-exports.showProfile = (req, res) => {
-  res.render('auth/perfil', {
-    title: 'Meu Perfil - Lumina Edu',
-    user: req.user
-  });
 };
