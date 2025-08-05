@@ -13,7 +13,7 @@ exports.validateForgotPassword = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('forgot-password', { 
+      return res.render('auth/forgot-password', { 
         title: 'Recuperar Senha - Lumina Edu',
         error_msg: errors.array()[0].msg,
         csrfToken: req.csrfToken()
@@ -35,7 +35,7 @@ exports.validateResetPassword = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('reset-password', { 
+      return res.render('auth/reset-password', { 
         title: 'Redefinir Senha - Lumina Edu',
         error_msg: errors.array()[0].msg,
         token: req.body.token,

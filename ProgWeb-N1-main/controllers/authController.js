@@ -51,7 +51,7 @@ exports.showLoginForm = (req, res) => {
 
 // Exibe formulário para o usuário digitar o email
 exports.showForgotPasswordForm = (req, res) => {
-  res.render('forgot-password', {
+  res.render('auth/forgot-password', {
     title: 'Recuperar Senha - Lumina Edu',
     csrfToken: req.csrfToken(),
     token: '',     // Evita erro no EJS
@@ -99,7 +99,7 @@ exports.showResetPasswordForm = async (req, res) => {
       return res.redirect('/auth/forgot-password');
     }
 
-    res.render('reset-password', {
+    res.render('auth/reset-password', {
       title: 'Redefinir Senha - Lumina Edu',
       csrfToken: req.csrfToken(),
       token: req.params.token,
