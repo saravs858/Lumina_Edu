@@ -1,7 +1,7 @@
 <%- include('partials/header_main', { title: 'Início' }); %>
 
 <div class="container py-5">
-  <h2 class="mb-4 text-center">👋 Seja bem-vinda, 
+  <h2 class="mb-4 text-center">👋 Seja bem-vindo, 
     <% if (user && (user.nome || user.name || user.username)) { %>
       <%= user.nome || user.name || user.username %>
     <% } else { %>
